@@ -3,7 +3,12 @@ const CleanUp = require('webpack-cleanup-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const ExtractCSS = require('extract-text-webpack-plugin')
+const webpack = require('webpack')
+
+
+
 module.exports = (env, options) => {
+    console.log("ENV = " + env, "OPTIONS = " + JSON.stringify(options));
 
     const { mode } = options
 
@@ -17,6 +22,7 @@ module.exports = (env, options) => {
         },
         devServer: {
             historyApiFallback: true,
+            hot: true
         },
         module: {
             rules: [
@@ -66,7 +72,8 @@ module.exports = (env, options) => {
             new ExtractCSS('app.[hash].css'),
             new HtmlWebpackPlugin({
                 template: './public/index.html'
-            })
+            }), 
+            new webpack.HotModuleReplacementPlugin()
         ]
     }
 }
